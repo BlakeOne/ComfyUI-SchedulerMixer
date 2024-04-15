@@ -24,7 +24,7 @@ class SchedulerMixer:
     FUNCTION = "get_sigmas"
 
     def get_sigmas(self, model, steps, denoise, normal, karras, exponential, sgm_uniform, simple, ddim_uniform):
-       total_steps = steps
+        total_steps = steps
         if denoise < 1.0:
             if denoise <= 0.0:
                 return (torch.FloatTensor([]),)
