@@ -36,7 +36,7 @@ class SchedulerMixer:
         mixed_sigmas = torch.zeros((steps + 1,), device="cpu", dtype=torch.float)
         for weight, name in zip(scheduler_weights, scheduler_names):                        
             if weight > 0.0:                
-                sigmas = comfy.samplers.calculate_sigmas_scheduler(model.model, name, total_steps).cpu()
+                sigmas = comfy.samplers.calculate_sigmas(model.model, name, total_steps).cpu()
                 sigmas = sigmas[-(steps + 1):]                
                 mixed_sigmas += sigmas * weight
 
