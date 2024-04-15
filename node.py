@@ -24,21 +24,20 @@ class SchedulerMixer:
     FUNCTION = "get_sigmas"
 
     def get_sigmas(self, model, steps, denoise, normal, karras, exponential, sgm_uniform, simple, ddim_uniform):
-        total_steps = steps
+       total_steps = steps
         if denoise < 1.0:
-            total_steps = int(steps / denoise)
-
-        comfy.model_management.load_models_gpu([model])
+            if denoise <= 0.0:
+                return (torch.FloatTensor([]),)
+            total_steps = int(steps/denoise)
 
         scheduler_weights = [normal, karras, exponential, sgm_uniform, simple, ddim_uniform]
         scheduler_names = ["normal", "karras", "exponential", "sgm_uniform", "simple", "ddim_uniform"]
 
         mixed_sigmas = torch.zeros((steps + 1,), device="cpu", dtype=torch.float)
         for weight, name in zip(scheduler_weights, scheduler_names):                        
-            if weight > 0.0:                
-                sigmas = comfy.samplers.calculate_sigmas(model.model, name, total_steps).cpu()
+            if weight > 0.0:
+                sigmas = comfy.samplers.calculate_sigmas(model.get_model_object("model_sampling"), name, total_steps).cpu()
                 sigmas = sigmas[-(steps + 1):]                
                 mixed_sigmas += sigmas * weight
 
         return (mixed_sigmas,)
-    
