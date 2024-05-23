@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-schedulermixer"
+description = "Create a custom scheduler from a weighted average of the built-in schedulers"
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/BlakeOne/ComfyUI-SchedulerMixer"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-SchedulerMixer"
+Icon = ""
